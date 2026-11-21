@@ -1,0 +1,11 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Munna Proxy",
+  "outputfilename": "munna-proxy",
+  "frontend:dir": "frontend",
+  "wailsjsdir": "frontend",
+  "author": {
+    "name": "arafsk",
+    "email": "arafsos@protonmail.com"
+  }
+}

@@ -1,8 +1,18 @@
 # Desktop application
 
-Status: **planned for M3**. The Wails project will be generated here; the
-directory is intentionally empty until then so the Go module and CI stay
-focused on the engine.
+Status: **test build**. Host and Client tabs, invite QR, LAN discovery and a
+log panel work on top of `core/api`. The client currently exposes a local
+SOCKS5 proxy; system-wide TUN mode arrives with M2. This is a separate Go module
+so the engine's CI does not build the web UI.
+
+## Building
+
+```bash
+desktop/scripts/build-local.sh     # macOS universal .app, Windows amd64 and arm64
+desktop/scripts/build-linux.sh     # Linux in an Ubuntu container (arm64 or amd64)
+```
+
+Linux builds use `-tags webkit2_41` because Ubuntu 24.04 ships WebKitGTK 4.1.
 
 ## Stack
 

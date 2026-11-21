@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'" />
+    <title>Munna Proxy</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="main.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Munna Proxy <span class="badge">test build</span></div>
+      <div class="pills">
+        <span id="pill-host" class="pill off">Host off</span>
+        <span id="pill-client" class="pill off">Client off</span>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="host">Host</button>
+      <button class="tab" data-tab="client">Client</button>
+    </nav>
+
+    <main>
+      <section id="tab-host" class="panel active">
+        <div class="grid">
+          <form id="host-form" class="card">
+            <h2>Share this device's network</h2>
+            <p class="hint">Other devices connect with the invite or the password below. Clients see this device's internet, LAN and localhost services.</p>
+
+            <label>Name shown to clients
+              <input id="host-name" type="text" autocomplete="off" />
+            </label>
+            <label>Listen address
+              <input id="host-listen" type="text" autocomplete="off" spellcheck="false" />
+              <small>0.0.0.0 accepts LAN connections. Use 127.0.0.1 for this machine only.</small>
+            </label>
+            <label>Advertised address (optional)
+              <input id="host-advertise" type="text" placeholder="auto-detected" autocomplete="off" spellcheck="false" />
+              <small>Set this if the LAN address is detected incorrectly, for example host:port behind NAT.</small>
+            </label>
+            <div class="row">
+              <label>Username
+                <input id="host-user" type="text" autocomplete="off" />
+              </label>
+              <label>Password
+                <input id="host-password" type="text" placeholder="generated when empty" autocomplete="off" spellcheck="false" />
+              </label>
+            </div>
+            <label class="check">
+              <input id="host-noauth" type="checkbox" />
+              Allow without a password <em>(only valid for 127.0.0.1)</em>
+            </label>
+            <label class="check">
+              <input id="host-mdns" type="checkbox" checked />
+              Advertise on the local network (mDNS)
+            </label>
+
+            <div class="actions">
+              <button type="submit" id="host-start" class="primary">Start host</button>
+              <button type="button" id="host-stop" class="danger" disabled>Stop host</button>
+            </div>
+          </form>
+
+          <div id="host-status" class="card">
+            <h2>Host status</h2>
+            <p class="empty">Not running.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-client" class="panel">
+        <div class="grid">
+          <form id="client-form" class="card">
+            <h2>Use another device's network</h2>
+            <p class="hint">Paste the invite from the host, or type its address. Munna opens a local SOCKS5 proxy on this machine that forwards everything through the host.</p>
+
+            <label>Host invite or address
+              <input id="client-host" type="text" placeholder="munna://… or 192.168.1.10:1080" autocomplete="off" spellcheck="false" />
+            </label>
+            <div class="row">
+              <button type="button" id="client-discover" class="secondary">Find hosts on this network</button>
+            </div>
+            <ul id="peer-list" class="peers"></ul>
+
+            <div class="row">
+              <label>Username
+                <input id="client-user" type="text" autocomplete="off" />
+              </label>
+              <label>Password
+                <input id="client-password" type="text" autocomplete="off" spellcheck="false" />
+              </label>
+            </div>
+            <label>Local proxy address
+              <input id="client-listen" type="text" autocomplete="off" spellcheck="false" />
+              <small>Must stay on 127.0.0.1. Apps on this machine use it as a SOCKS5 proxy.</small>
+            </label>
+
+            <div class="actions">
+              <button type="submit" id="client-start" class="primary">Connect</button>
+              <button type="button" id="client-stop" class="danger" disabled>Disconnect</button>
+            </div>
+          </form>
+
+          <div id="client-status" class="card">
+            <h2>Connection status</h2>
+            <p class="empty">Not connected.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="logs">
+      <div class="logbar">
+        <strong>Log</strong>
+        <label class="check inline"><input id="debug" type="checkbox" /> Debug</label>
+        <button type="button" id="logs-clear" class="secondary small">Clear</button>
+      </div>
+      <pre id="log-output"></pre>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
