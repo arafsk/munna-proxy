@@ -6,7 +6,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and the project intends to use [Semantic Versioning](https://semver.org/)
 once it reaches a release.
 
-## [Unreleased]
+## [0.1.0] - 2026-11-21
+
+First release: the host side of the SOCKS5 proxy.
 
 ### Added
 
@@ -36,4 +38,4 @@ once it reaches a release.
 
 - Documented the initial threat model and security reporting process.
 
-[Unreleased]: https://github.com/arafsk/munna-proxy/commits/main
+[0.1.0]: https://github.com/arafsk/munna-proxy/releases/tag/v0.1.0
