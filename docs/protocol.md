@@ -38,7 +38,8 @@ authentication) with the restrictions below.
 | Username/password | `0x02` | Required by default |
 
 Credentials are generated per host, compared in constant time, and rate
-limited per peer. Failed attempts are logged without the supplied password.
+limited per peer: five failures in a minute trigger a five-minute lockout.
+Failed attempts are logged without the supplied password.
 
 ### Commands
 

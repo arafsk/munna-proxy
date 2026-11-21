@@ -37,31 +37,38 @@ make ci
 
 `make help` lists every target.
 
-## Two-minute proof
+## Host and client in two minutes
 
-Before the engine exists, validate the core idea with a temporary SOCKS5
-server. This is **for testing only**: it has no authentication and no
-encryption, so run it on a trusted LAN and stop it afterwards.
-
-On the host:
+Start the host. It generates a password when `-password` is omitted and prints
+the invite plus a QR code:
 
 ```bash
-# Option A: OpenSSH's built-in SOCKS5 proxy, bound to all interfaces.
-ssh -D 0.0.0.0:1080 -N localhost
-
-# Option B: microsocks (brew install microsocks)
-microsocks -p 1080
+make build
+./bin/munna serve
 ```
+
+By default it listens on `0.0.0.0:1080`, advertises over mDNS, and denies cloud
+metadata endpoints. Useful flags:
+
+| Flag | Default | Purpose |
+| --- | --- | --- |
+| `-listen` | `0.0.0.0:1080` | SOCKS5 listen address |
+| `-user` / `-password` | `munna` / generated | RFC 1929 credentials |
+| `-no-auth` | off | Disable auth; loopback listeners only |
+| `-advertise` | detected LAN IP | `host:port` written into the invite |
+| `-name` | system hostname | Name shown to clients |
+| `-mdns` | `true` | Advertise `_munna-proxy._tcp` on the LAN |
+| `-debug` | off | Verbose connection logs |
 
 From another device on the same LAN, replace `192.168.1.10` with the host's
 address:
 
 ```bash
 # Traffic exits from the host's network.
-curl --socks5-hostname 192.168.1.10:1080 https://ifconfig.me
+curl --socks5-hostname user:password@192.168.1.10:1080 https://ifconfig.me
 
 # The host's loopback is reachable.
-curl --socks5-hostname 192.168.1.10:1080 http://127.0.0.1:3000
+curl --socks5-hostname user:password@192.168.1.10:1080 http://127.0.0.1:3000
 ```
 
 In a browser, start a separate profile with the proxy configured:
@@ -77,7 +84,10 @@ In a browser, start a separate profile with the proxy configured:
 Firefox needs `network.proxy.socks_remote_dns=true` and
 `network.proxy.allow_hijacking_localhost=true` in `about:config`.
 
-Stop the temporary server with `Ctrl-C` (or `pkill -f "ssh -D"`).
+If mDNS or the invite is unavailable, `ssh -D 0.0.0.0:1080 -N localhost` and
+`microsocks -p 1080` remain useful unauthenticated fallbacks on a trusted LAN.
+
+Stop the host with `Ctrl-C`.
 
 ## Make targets
 

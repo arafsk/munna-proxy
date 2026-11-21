@@ -43,16 +43,26 @@ Manual validation only.
 
 ## M1 — SOCKS5 core
 
-- `core/socks5` server: CONNECT, domain/IPv4/IPv6, RFC 1929 auth, reply codes.
-- `core/dialer`: host resolver, happy eyeballs, policy, limits.
-- `core/discovery`: mDNS advertisement, invite URI, QR in the terminal.
-- `munna serve` with a generated credential and a printed invite.
-- Unit, integration and fuzz tests.
-- GoReleaser builds for the six desktop targets.
+**Status: complete on `main`.**
+
+- [x] `core/socks5` server: CONNECT, domain/IPv4/IPv6, RFC 1929 auth, reply codes.
+- [x] `core/dialer`: host resolver, happy eyeballs, policy, limits.
+- [x] `core/discovery`: mDNS advertisement, invite URI, QR in the terminal.
+- [x] `munna serve` with a generated credential and a printed invite.
+- [x] Unit, integration and fuzz tests.
+- [x] GoReleaser builds for the six desktop targets.
 
 **Done when:** a phone or laptop with any SOCKS5 client browses through the
 host over LAN, including a host-local service, and `make ci` is green on all
 three operating systems.
+
+Deliberate limits carried into M2:
+
+- The listener is plain TCP. TLS and the QUIC tunnel arrive with the relay.
+- UDP ASSOCIATE and BIND return "command not supported".
+- The invite token is informational until the Noise handshake exists; the
+  SOCKS5 username/password is the only authentication today.
+- mDNS is advertised, but client-side discovery lands with the GUI.
 
 ## M2 — macOS TUN
 

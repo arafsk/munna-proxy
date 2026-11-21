@@ -9,8 +9,13 @@
 package main
 
 import (
+	"context"
+	"errors"
+	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/arafsk/munna-proxy/internal/version"
 )
@@ -27,22 +32,44 @@ Commands:
   status    Show the state of a running daemon
   version   Print version information
 
-The proxy engine is not implemented yet. See docs/roadmap.md.
+Run "munna serve -h" for host options. Client mode and the relay arrive in
+later milestones; see docs/roadmap.md.
 `
 
 func main() {
+	os.Exit(run())
+}
+
+// run returns the process exit code. Keeping os.Exit out of it lets deferred
+// cleanup (signal handling) run before the process terminates.
+func run() int {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
 	if len(os.Args) < 2 {
 		fmt.Fprint(os.Stderr, usage)
-		os.Exit(2)
+		return 2
 	}
 
+	var err error
 	switch os.Args[1] {
+	case "serve":
+		err = runServe(ctx, os.Args[2:])
 	case "version", "--version", "-v":
 		fmt.Println(version.String())
 	case "help", "--help", "-h":
 		fmt.Print(usage)
 	default:
 		fmt.Fprintf(os.Stderr, "munna: %q is not implemented yet (see docs/roadmap.md)\n", os.Args[1])
-		os.Exit(2)
+		return 2
 	}
+
+	if err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
+		fmt.Fprintf(os.Stderr, "munna: %v\n", err)
+		return 1
+	}
+	return 0
 }

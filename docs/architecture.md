@@ -46,14 +46,14 @@ A single installation can act as host and client at the same time.
 
 | Package | Responsibility | Key dependencies |
 | --- | --- | --- |
-| `core/socks5` | SOCKS5 server/client, auth, UDP associate | standard library |
-| `core/dialer` | Outbound dialing, DNS, policy, limits | `net`, `net/netip` |
+| `core/socks5` | SOCKS5 server: CONNECT, auth, reply mapping (UDP associate planned) | standard library |
+| `core/dialer` | Outbound dialing, DNS, policy, happy eyeballs, limits | `net`, `net/netip` |
 | `core/tunnel` | QUIC transport, control frames, streams, datagrams | `quic-go` |
 | `core/noise` | Device keys, XX/IK handshakes, pairing tokens | `flynn/noise` |
 | `core/relay` | Registration, rendezvous, bridging | `quic-go` |
 | `core/tun` | TUN lifecycle, routes, DNS, kill switch | `wireguard-go/tun`, `tun2socks` |
 | `core/expose` | Publish host loopback ports | `net`, `crypto/tls` |
-| `core/discovery` | mDNS, invite URIs, QR payloads | `zeroconf`, `go-qrcode` |
+| `core/discovery` | mDNS, invite URIs, QR payloads | `libp2p/zeroconf`, `qrterminal` |
 | `core/config` | Schema, validation, key storage | OS key stores |
 | `core/api` | Local control API for GUIs | `net/http` over unix socket/named pipe |
 

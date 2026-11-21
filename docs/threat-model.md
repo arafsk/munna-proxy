@@ -85,15 +85,15 @@ in the user's jurisdiction.
 
 These are release blockers for v1:
 
-- [ ] Authentication enabled by default; anonymous mode does not exist.
-- [ ] Constant-time credential comparison and auth rate limiting.
+- [x] Authentication enabled by default; anonymous mode is loopback-only and explicit.
+- [x] Constant-time credential comparison and auth rate limiting.
 - [ ] TLS 1.3 for direct WAN connections with certificate pinning.
 - [ ] Noise end-to-end channel through the relay.
-- [ ] Metadata endpoint denial and policy validation in `core/dialer`.
+- [x] Metadata endpoint denial and policy validation in `core/dialer`.
 - [ ] Helper API with peer credential checks and no command execution.
 - [ ] Keys stored in OS key stores.
 - [ ] Kill switch on desktop and Android always-on support.
-- [ ] No destination logging at info level.
+- [x] No destination logging at info level.
 - [ ] Fuzz tests for SOCKS5 and tunnel parsers.
 - [ ] Dependency and license review.
 - [ ] Threat model reviewed before the first public release.

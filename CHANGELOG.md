@@ -17,6 +17,16 @@ once it reaches a release.
 - GitHub Actions CI (build, vet, test, lint, cross-compile) and a GoReleaser
   release workflow.
 - Issue and pull request templates, security policy, contributing guide.
+- `core/socks5`: RFC 1928 CONNECT for domain, IPv4 and IPv6 targets, RFC 1929
+  authentication with constant-time comparison, per-remote lockout after
+  repeated failures, reply-code mapping, idle timeouts and connection caps.
+- `core/dialer`: host-side DNS, happy-eyeballs racing, metadata-endpoint denial
+  and pluggable policy.
+- `core/discovery`: `munna://` invite encoding, mDNS advertisement and a
+  terminal QR code.
+- `munna serve`: host mode with generated credentials, invite output and
+  configurable listen, advertise, mDNS and logging flags.
+- Unit, integration and fuzz tests for the SOCKS5 parser, dialer and invites.
 
 ### Changed
 

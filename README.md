@@ -6,9 +6,10 @@ Munna Proxy lets one device — the *host* — share its network with other devi
 *clients*. Clients see the host's public IP, reach the host's LAN, and can use services
 that only listen on the host's loopback, as if they were sitting on the host's network.
 
-> **Status: early scaffold.** The repository layout, documentation, CI and build
-> tooling are in place. The proxy engine is **not implemented yet**.
-> See [docs/roadmap.md](docs/roadmap.md) for milestones and acceptance criteria.
+> **Status: M1 complete.** The host runs a SOCKS5 endpoint with authentication,
+> host-side DNS, IPv6, policy guards, mDNS advertisement and a terminal QR
+> invite. The TUN client, desktop GUI, Android app and relay are next; see
+> [docs/roadmap.md](docs/roadmap.md) for milestones and acceptance criteria.
 
 ## Why
 
@@ -41,9 +42,9 @@ endpoint.
 
 | Platform | Host | Client (SOCKS5) | Client (TUN) | Status |
 | --- | --- | --- | --- | --- |
-| macOS (Intel / Apple silicon) | planned | planned | planned | scaffold |
-| Windows (amd64 / arm64) | planned | planned | planned | scaffold |
-| Linux (Ubuntu, amd64 / arm64) | planned | planned | planned | scaffold |
+| macOS (Intel / Apple silicon) | yes | yes | planned | host ready |
+| Windows (amd64 / arm64) | yes | yes | planned | host ready |
+| Linux (Ubuntu, amd64 / arm64) | yes | yes | planned | host ready |
 | Android (arm64) | planned | planned | planned | scaffold |
 
 ## Quick start
@@ -55,11 +56,20 @@ git clone https://github.com/arafsk/munna-proxy.git
 cd munna-proxy
 make build
 ./bin/munna version
+./bin/munna serve
 ```
 
-The engine is not wired up yet, so `munna serve` exits with a "not implemented"
-message. To validate the core idea today, run the
-[two-minute proof](docs/development.md#two-minute-proof).
+`munna serve` prints the credentials and a `munna://` invite as a QR code. From
+another device on the same LAN, point any SOCKS5 client at the host:
+
+```bash
+curl --socks5-hostname user:password@192.168.1.10:1080 https://ifconfig.me
+curl --socks5-hostname user:password@192.168.1.10:1080 http://127.0.0.1:3000
+```
+
+Use `-listen 127.0.0.1:1080 -no-auth` for a local-only proxy without
+authentication. See [docs/development.md](docs/development.md#host-and-client-in-two-minutes)
+for browser setup, flags and troubleshooting.
 
 ## Repository layout
 
