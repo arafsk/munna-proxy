@@ -1,0 +1,53 @@
+# Build output
+/bin/
+/dist/
+/build/
+*.exe
+*.dll
+*.dylib
+*.so
+*.test
+*.out
+
+# Go
+/vendor/
+coverage.*
+*.prof
+
+# Wails
+/desktop/build/bin/
+/desktop/frontend/node_modules/
+/desktop/frontend/dist/
+/desktop/frontend/.vite/
+/desktop/node_modules/
+
+# Android
+/android/.gradle/
+/android/local.properties
+/android/**/build/
+/android/.idea/
+*.apk
+*.aab
+*.jks
+*.keystore
+!android/app/debug.keystore
+
+# Keys and secrets
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+*.token
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local environment
+.env
+.env.local

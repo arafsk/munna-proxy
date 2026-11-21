@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a capability or design change
+title: "[feat]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that the project does not support?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behaviour you want, including alternatives you considered.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - SOCKS5
+        - Tunnel / transport
+        - Relay
+        - Desktop app
+        - Android app
+        - Packaging / install
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, sketches, related projects.
+    validations:
+      required: false

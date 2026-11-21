@@ -1,0 +1,75 @@
+version: 2
+
+project_name: munna-proxy
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: munna
+    main: ./cmd/munna
+    binary: munna
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X github.com/arafsk/munna-proxy/internal/version.Version={{ .Version }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Commit={{ .Commit }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Date={{ .Date }}
+
+  - id: munna-relay
+    main: ./cmd/munna-relay
+    binary: munna-relay
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X github.com/arafsk/munna-proxy/internal/version.Version={{ .Version }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Commit={{ .Commit }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Date={{ .Date }}
+
+  - id: munna-helper
+    main: ./cmd/munna-helper
+    binary: munna-helper
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X github.com/arafsk/munna-proxy/internal/version.Version={{ .Version }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Commit={{ .Commit }}
+      - -X github.com/arafsk/munna-proxy/internal/version.Date={{ .Date }}
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^chore:"
+      - "^ci:"
+      - "^test:"
+
+release:
+  draft: true
+  prerelease: auto
+  footer: |
+    **Unsigned build.** The binaries are not code-signed yet. See
+    `docs/development.md` for install notes on macOS and Windows.
